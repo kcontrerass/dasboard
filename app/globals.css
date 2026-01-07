@@ -1,26 +1,23 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-primary: #0D3C61;
+  --color-background-light: #F3F4F6;
+  --color-card-light: #FFFFFF;
+  --font-display: "Inter", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --radius: 0.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.chart-donut-visitors {
+  background: conic-gradient(#FBBF24 0% 75%,
+      #22C55E 75% 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.chart-donut-notices {
+  background: conic-gradient(#6B7280 0% 100%,
+      #F97316 100% 100%);
 }
