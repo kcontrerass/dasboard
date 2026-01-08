@@ -8,17 +8,18 @@ interface SidebarProps {
 }
 
 const menuItems = [
-    { name: 'Dashboard', icon: 'grid_view', href: '/', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
-    { name: 'Residential Unit', icon: 'home', href: '/units', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
-    { name: 'User Management', icon: 'people', href: '/users', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
-    { name: 'Visitors Management', icon: 'emoji_people', href: '/visitors', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'GATEKEEPER'] },
-    { name: 'Notification', icon: 'notifications', href: '/notifications', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
-    { name: 'Services & Facility', icon: 'plumbing', href: '/services', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'STAFF'] },
-    { name: 'Accounts', icon: 'payments', href: '/accounts', allowedRoles: ['SUPER_ADMIN', 'ACCOUNTANT'] },
-    { name: 'Assets & Inventory', icon: 'inventory_2', href: '/inventory', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
-    { name: 'Reports', icon: 'bar_chart', href: '/reports', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT'] },
-    { name: 'Profile', icon: 'person', href: '/profile', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
-    { name: 'Other', icon: 'more_horiz', href: '/other', allowedRoles: ['SUPER_ADMIN'] },
+    { name: 'Tablero', icon: 'grid_view', href: '/', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
+    { name: 'Unidad Residencial', icon: 'home', href: '/units', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Gestión de Usuarios', icon: 'people', href: '/users', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Visitantes', icon: 'emoji_people', href: '/visitors', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'GATEKEEPER'] },
+    { name: 'Mensajes', icon: 'chat', href: '/messages', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
+    { name: 'Notificaciones', icon: 'notifications', href: '/notifications', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Servicios e Instalaciones', icon: 'plumbing', href: '/services', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'STAFF'] },
+    { name: 'Cuentas', icon: 'payments', href: '/accounts', allowedRoles: ['SUPER_ADMIN', 'ACCOUNTANT'] },
+    { name: 'Activos e Inventario', icon: 'inventory_2', href: '/inventory', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Reportes', icon: 'bar_chart', href: '/reports', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT'] },
+    { name: 'Perfil', icon: 'person', href: '/profile', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
+    { name: 'Otros', icon: 'more_horiz', href: '/other', allowedRoles: ['SUPER_ADMIN'] },
 ];
 
 export default function Sidebar({ isOpen, close, userRole }: SidebarProps) {
@@ -48,7 +49,7 @@ export default function Sidebar({ isOpen, close, userRole }: SidebarProps) {
                     <div className="flex flex-col">
                         <span className="font-bold text-lg leading-tight">AUMENTA</span>
                         <span className="text-[10px] text-blue-300 uppercase tracking-wider">
-                            Management System
+                            Sistema de Gestión
                         </span>
                     </div>
                 </div>

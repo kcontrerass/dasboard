@@ -18,7 +18,7 @@ export default function Header({ toggleSidebar, user }: HeaderProps) {
         router.push('/login');
     };
 
-    const userName = user?.name || 'Guest User';
+    const userName = user?.name || 'Usuario Invitado';
     const userEmail = user?.email || '';
     const userImage = user?.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHBORfy9k2aZMB96PxYlf67MYlxni-VWmSTcbyMm0kdGSK5BXONq1p7YHUau3RN5Vey6enSDiKbbLsYXB_QAze4ulTyzjtiGo8ZJRhz-C3A2jnoh0Fr1k9fq5P1CjSL1xUS4I3jBvR7g1F6AGu8DiyNRB2VLsMTu4gxkq10bLrY7Egp5HqE97dRFgc2rjTyq5Q4I1ksY5_NZGdrtUz2P0QnbyXwnthIBJm9Sss3aKAnTHSjtQO9L5KA7bvXagoG-adyYY2QILypa49';
 
@@ -33,7 +33,7 @@ export default function Header({ toggleSidebar, user }: HeaderProps) {
                         <span className="material-icons-outlined text-2xl">menu</span>
                     </button>
                     <h1 className="text-xl font-medium text-gray-800">
-                        Welcome, {userName}
+                        Bienvenido, {userName}
                     </h1>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -65,18 +65,18 @@ export default function Header({ toggleSidebar, user }: HeaderProps) {
                                     </div>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                                         <span className="material-icons-outlined text-sm mr-2">person</span>
-                                        Profile
+                                        Perfil
                                     </a>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                                         <span className="material-icons-outlined text-sm mr-2">settings</span>
-                                        Settings
+                                        Configuración
                                     </a>
                                     <button
                                         onClick={handleLogout}
                                         className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
                                     >
                                         <span className="material-icons-outlined text-sm mr-2">logout</span>
-                                        Logout
+                                        Cerrar Sesión
                                     </button>
                                 </div>
                             </>

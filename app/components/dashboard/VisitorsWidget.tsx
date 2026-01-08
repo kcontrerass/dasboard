@@ -5,14 +5,14 @@ interface VisitorsWidgetProps {
 export default function VisitorsWidget({ totalVisitors }: VisitorsWidgetProps) {
     // Mock distribution based on real total for now
     const visitorStats = [
-        { label: 'New Visitors', value: Math.floor(totalVisitors * 0.4), color: 'bg-yellow-400' },
-        { label: 'Old Visitors', value: Math.floor(totalVisitors * 0.6), color: 'bg-green-500' },
+        { label: 'Nuevos', value: Math.floor(totalVisitors * 0.4), color: 'bg-yellow-400' },
+        { label: 'Habituales', value: Math.floor(totalVisitors * 0.6), color: 'bg-green-500' },
     ];
 
     return (
         <div className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5">
             <div className="flex justify-between items-start mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Visitors</h2>
+                <h2 className="text-lg font-medium text-gray-900">Visitantes</h2>
                 <button className="text-gray-400 hover:text-blue-500 transition-colors">
                     <span className="material-icons-outlined text-lg">open_in_new</span>
                 </button>
@@ -21,7 +21,7 @@ export default function VisitorsWidget({ totalVisitors }: VisitorsWidgetProps) {
                 <div className="relative w-40 h-40 rounded-full chart-donut-visitors flex items-center justify-center">
                     <div className="w-32 h-32 bg-card-light rounded-full flex flex-col items-center justify-center">
                         <span className="text-3xl font-bold text-gray-800">{totalVisitors}</span>
-                        <span className="text-xs text-gray-500 uppercase tracking-wide">Visitors</span>
+                        <span className="text-xs text-gray-500 uppercase tracking-wide">Total</span>
                     </div>
                 </div>
                 <div className="flex justify-around w-full mt-8">

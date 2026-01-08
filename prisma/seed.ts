@@ -108,9 +108,9 @@ async function main() {
     // 5. Create Messages
     await prisma.message.createMany({
         data: [
-            { content: "Hey, can you fix the lights?", senderId: user2.id, avatarColor: "bg-green-500" },
-            { content: "Maintenance fee paid.", senderId: user3.id, avatarColor: "bg-purple-500" },
-            { content: "Visitor arrived for you.", senderId: superAdmin.id, avatarColor: "bg-blue-500" },
+            { content: "Hey, can you fix the lights?", senderId: user2.id, receiverId: superAdmin.id, avatarColor: "bg-green-500" },
+            { content: "Maintenance fee paid.", senderId: user3.id, receiverId: superAdmin.id, avatarColor: "bg-purple-500" },
+            { content: "Visitor arrived for you.", senderId: superAdmin.id, receiverId: user2.id, avatarColor: "bg-blue-500" },
         ]
     })
 

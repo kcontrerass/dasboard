@@ -50,8 +50,12 @@ export async function getInvoices() {
 }
 
 export async function getMessages() {
+    const user = await getCurrentUser();
+    if (!user) return { success: false, data: [] };
+
     try {
         const messages = await prisma.message.findMany({
+            where: { receiverId: user.id },
             orderBy: { createdAt: 'desc' },
             take: 5,
             include: { sender: { select: { name: true } } }
@@ -62,6 +66,63 @@ export async function getMessages() {
         return { success: false, data: [] }
     }
 }
+
+export async function getUsers() {
+    const currentUser = await getCurrentUser();
+    if (!currentUser) return { success: false, data: [] };
+
+    try {
+        const users = await prisma.user.findMany({
+            where: { NOT: { id: currentUser.id } },
+            select: { id: true, name: true, email: true, role: true },
+            orderBy: { name: 'asc' }
+        });
+        return { success: true, data: users };
+    } catch (error) {
+        return { success: false, data: [] };
+    }
+}
+
+export async function sendMessage(prevState: any, formData: FormData) {
+    // original implementation retained for compatibility
+    const user = await getCurrentUser();
+    if (!user) return { success: false, message: 'No autorizado' };
+
+    const receiverId = Number(formData.get('receiverId'));
+    const content = formData.get('content') as string;
+
+    if (!receiverId || !content) {
+        return { success: false, message: 'Destinatario y mensaje son obligatorios' };
+    }
+
+    try {
+        await prisma.message.create({
+            data: {
+                content,
+                senderId: user.id,
+                receiverId: receiverId,
+            },
+        });
+        revalidatePath('/messages');
+        revalidatePath('/');
+        return { success: true, message: 'Mensaje enviado correctamente' };
+    } catch (error) {
+        console.error('Error sending message:', error);
+        return { success: false, message: 'Error al enviar el mensaje' };
+    }
+}
+
+/**
+ * Wrapper server action that matches the expected `(formData) => void | Promise<void>`
+ * signature for a `<form action={...}>` element.
+ * It simply calls the original `sendMessage` and discards the returned value.
+ */
+export async function sendMessageAction(formData: FormData) {
+    // We ignore the previous state because the UI does not need it here.
+    await sendMessage(undefined, formData);
+}
+
+
 
 export async function getDashboardStats() {
     // You can implement aggregation here if needed
@@ -88,7 +149,7 @@ export async function login(currentState: any, formData: FormData) {
     console.log('Login attempt:', { email, role })
 
     if (!email || !password) {
-        return { success: false, message: 'Email and password are required' }
+        return { success: false, message: 'El correo y la contraseña son obligatorios' }
     }
 
     try {
@@ -97,18 +158,18 @@ export async function login(currentState: any, formData: FormData) {
         })
 
         if (!user) {
-            return { success: false, message: 'User not found' }
+            return { success: false, message: 'Usuario no encontrado' }
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password)
 
         if (!passwordMatch) {
-            return { success: false, message: 'Invalid credentials' }
+            return { success: false, message: 'Credenciales inválidas' }
         }
 
         // Validate Role
         if (role && user.role !== role) {
-            return { success: false, message: `Access denied. You are not authorized as ${role.replace('_', ' ')}` }
+            return { success: false, message: `Acceso denegado. No tienes autorización como ${role.replace('_', ' ')}` }
         }
 
         // Create JWT
@@ -132,10 +193,10 @@ export async function login(currentState: any, formData: FormData) {
             maxAge: 60 * 60 * 24
         })
 
-        return { success: true, message: 'Login successful' }
+        return { success: true, message: 'Inicio de sesión exitoso' }
     } catch (error) {
         console.error('Login error:', error)
-        return { success: false, message: 'Something went wrong' }
+        return { success: false, message: 'Algo salió mal' }
     }
 }
 
@@ -188,7 +249,7 @@ export async function getUserProfile() {
 
         return { success: true, data: user }
     } catch (error) {
-        return { success: false, message: 'Failed to fetch profile' }
+        return { success: false, message: 'Error al obtener perfil' }
     }
 }
 
@@ -207,7 +268,7 @@ export async function getBuildingOptions() {
         })
         return { success: true, data: buildings }
     } catch (error) {
-        return { success: false, message: 'Failed to fetch buildings' }
+        return { success: false, message: 'Error al obtener edificios' }
     }
 }
 
@@ -231,7 +292,7 @@ export async function registerMember(currentState: any, formData: FormData) {
         const role = allowedRoles.includes(roleInput) ? roleInput : 'MEMBER'
 
         if (!email || !password || !firstName || !lastName) {
-            return { success: false, message: 'Missing required fields' }
+            return { success: false, message: 'Faltan campos obligatorios' }
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -279,10 +340,10 @@ export async function registerMember(currentState: any, formData: FormData) {
             }
         })
 
-        return { success: true, message: 'Member registered successfully' }
+        return { success: true, message: 'Miembro registrado exitosamente' }
 
     } catch (error) {
         console.error('Registration error:', error)
-        return { success: false, message: 'Registration failed. Email might be duplicates.' }
+        return { success: false, message: 'Error en el registro. El correo podría estar duplicado.' }
     }
 }

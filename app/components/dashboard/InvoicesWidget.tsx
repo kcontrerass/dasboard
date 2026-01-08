@@ -6,7 +6,7 @@ export default function InvoicesWidget({ invoices = [] }: InvoicesWidgetProps) {
     return (
         <div className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5 lg:col-span-1">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-lg font-medium text-gray-900">Invoices</h2>
+                <h2 className="text-lg font-medium text-gray-900">Facturas</h2>
                 <button className="text-gray-400 hover:text-blue-500 transition-colors">
                     <span className="material-icons-outlined text-lg">open_in_new</span>
                 </button>
@@ -31,7 +31,7 @@ export default function InvoicesWidget({ invoices = [] }: InvoicesWidgetProps) {
                                     </div>
                                     <p className="text-[10px] text-gray-500 flex items-center mt-0.5">
                                         <span className="material-icons-outlined text-[10px] mr-1">person</span>{' '}
-                                        {invoice.user?.name || 'Unknown'}
+                                        {invoice.user?.name || 'Desconocido'}
                                     </p>
                                 </div>
                             </div>

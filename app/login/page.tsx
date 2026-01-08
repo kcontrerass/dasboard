@@ -14,18 +14,18 @@ interface MenuItem {
 
 // Menu Items Data
 const menuItems: MenuItem[] = [
-    { name: 'Apartment Management Login', icon: 'apartment', view: 'login' },
-    { name: 'Member Registration Page', icon: 'person_add', view: 'register' },
+    { name: 'Acceso Administración', icon: 'apartment', view: 'login' },
+    { name: 'Registro de Miembros', icon: 'person_add', view: 'register' },
 ];
 
 // Role Options
 const roles = [
     { id: 'SUPER_ADMIN', label: 'Admin' },
-    { id: 'RESIDENT', label: 'Resident' },
-    { id: 'ACCOUNTANT', label: 'Accountant' },
-    { id: 'STAFF', label: 'Staff' },
-    { id: 'GATEKEEPER', label: 'Gatekeeper' },
-    { id: 'MEMBER', label: 'Member' },
+    { id: 'RESIDENT', label: 'Residente' },
+    { id: 'ACCOUNTANT', label: 'Contador' },
+    { id: 'STAFF', label: 'Personal' },
+    { id: 'GATEKEEPER', label: 'Vigilante' },
+    { id: 'MEMBER', label: 'Miembro' },
 ];
 
 const initialState = {
@@ -54,7 +54,7 @@ export default function LoginPage() {
     };
 
     const handleRegisterSuccess = () => {
-        setSuccessMessage('Registration successful! Please log in with your new account.');
+        setSuccessMessage('¡Registro exitoso! Por favor inicia sesión con tu nueva cuenta.');
         setCurrentView('login');
         setSelectedRole('MEMBER');
     };
@@ -68,7 +68,7 @@ export default function LoginPage() {
                         <span className="material-icons-outlined text-4xl">admin_panel_settings</span>
                         <div>
                             <h1 className="text-xl font-bold leading-none">AUMENTA</h1>
-                            <p className="text-xs text-blue-300 tracking-wider">SECURE ACCESS</p>
+                            <p className="text-xs text-blue-300 tracking-wider">ACCESO SEGURO</p>
                         </div>
                     </div>
 
@@ -91,7 +91,7 @@ export default function LoginPage() {
 
                 <div className="text-xs text-blue-300/60 pb-4">
                     <p>© 2026 Aumenta System.</p>
-                    <p>All rights reserved.</p>
+                    <p>Todos los derechos reservados.</p>
                 </div>
             </div>
 
@@ -113,17 +113,17 @@ export default function LoginPage() {
                             {/* Left Side: Illustration layer */}
                             <div className="hidden md:flex md:col-span-1 bg-gradient-to-br from-[#1A4373] to-[#2c5d96] p-8 text-white flex-col justify-center relative overflow-hidden">
                                 <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                                <h2 className="text-3xl font-bold mb-4 relative z-10">Welcome Back</h2>
+                                <h2 className="text-3xl font-bold mb-4 relative z-10">Bienvenido</h2>
                                 <p className="text-blue-100 leading-relaxed relative z-10 mb-8">
-                                    Access your dashboard to manage units, visitors, and facility services efficiently.
+                                    Accede a tu panel para gestionar unidades, visitantes y servicios de manera eficiente.
                                 </p>
                             </div>
 
                             {/* Right Side: Login Form */}
                             <div className="md:col-span-2 p-8 md:p-12 flex flex-col justify-center">
                                 <div className="mb-8">
-                                    <h2 className="text-2xl font-bold text-gray-800">Login to Account</h2>
-                                    <p className="text-sm text-gray-500 mt-1">Please enter your credentials to proceed.</p>
+                                    <h2 className="text-2xl font-bold text-gray-800">Iniciar Sesión</h2>
+                                    <p className="text-sm text-gray-500 mt-1">Por favor ingresa tus credenciales para continuar.</p>
 
                                     {successMessage && (
                                         <div className="mt-4 p-3 bg-green-50 text-green-700 rounded text-sm border border-green-200">
@@ -135,7 +135,7 @@ export default function LoginPage() {
                                 <form action={formAction} className="space-y-6">
                                     {/* Role Selector */}
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Select Role</label>
+                                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Seleccionar Rol</label>
                                         <input type="hidden" name="role" value={selectedRole} />
                                         <div className="flex flex-wrap gap-2">
                                             {roles.map(role => (
@@ -156,21 +156,21 @@ export default function LoginPage() {
 
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
                                             <div className="relative">
                                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 material-icons-outlined text-sm">email</span>
                                                 <input
                                                     type="email"
                                                     name="email"
                                                     className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1A4373] focus:border-transparent transition-shadow outline-none"
-                                                    placeholder="name@company.com"
+                                                    placeholder="nombre@empresa.com"
                                                     required
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
                                             <div className="relative">
                                                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 material-icons-outlined text-sm">lock</span>
                                                 <input
@@ -199,13 +199,13 @@ export default function LoginPage() {
                                             {isPending ? (
                                                 <span className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                                             ) : (
-                                                'LOG IN'
+                                                'INGRESAR'
                                             )}
                                         </button>
                                     </div>
 
                                     <div className="text-center">
-                                        <a href="#" className="text-sm text-gray-400 hover:text-[#1A4373] transition-colors">Forgot Password?</a>
+                                        <a href="#" className="text-sm text-gray-400 hover:text-[#1A4373] transition-colors">¿Olvidaste tu contraseña?</a>
                                     </div>
                                 </form>
                             </div>
@@ -216,14 +216,14 @@ export default function LoginPage() {
                             {/* Left Side: Summary/Info for Register */}
                             <div className="hidden md:flex md:col-span-1 bg-gradient-to-br from-[#1A4373] to-[#2c5d96] p-8 text-white flex-col justify-center relative overflow-hidden">
                                 <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                                <h2 className="text-3xl font-bold mb-4 relative z-10">Join Community</h2>
+                                <h2 className="text-3xl font-bold mb-4 relative z-10">Únete a la Comunidad</h2>
                                 <p className="text-blue-100 leading-relaxed relative z-10 mb-8">
-                                    Register your member profile to access community services and notifications.
+                                    Registra tu perfil para acceder a los servicios de la comunidad y recibir notificaciones.
                                 </p>
                                 <ul className="space-y-3 relative z-10 text-sm text-blue-100">
-                                    <li className="flex items-center"><span className="material-icons-outlined mr-2">check</span> Manage Visitors</li>
-                                    <li className="flex items-center"><span className="material-icons-outlined mr-2">check</span> View Invoices</li>
-                                    <li className="flex items-center"><span className="material-icons-outlined mr-2">check</span> Book Facilities</li>
+                                    <li className="flex items-center"><span className="material-icons-outlined mr-2">check</span> Gestionar Visitantes</li>
+                                    <li className="flex items-center"><span className="material-icons-outlined mr-2">check</span> Ver Facturas</li>
+                                    <li className="flex items-center"><span className="material-icons-outlined mr-2">check</span> Reservar Áreas</li>
                                 </ul>
                             </div>
 

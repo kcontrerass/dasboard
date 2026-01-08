@@ -73,8 +73,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     return (
         <div className="md:col-span-2 bg-white p-8 md:p-12 relative">
             <div className="mb-6 border-b pb-4">
-                <h2 className="text-2xl font-bold text-gray-800 uppercase tracking-wide">Member Registration</h2>
-                <p className="text-gray-500 text-sm mt-1">Fill in the details to create your account</p>
+                <h2 className="text-2xl font-bold text-gray-800 uppercase tracking-wide">Registro de Miembro</h2>
+                <p className="text-gray-500 text-sm mt-1">Completa los detalles para crear tu cuenta</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -88,15 +88,15 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                 <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                     <h3 className="text-sm font-bold text-gray-700 uppercase mb-4 flex items-center">
                         <span className="material-icons-outlined text-base mr-2">badge</span>
-                        Account Type
+                        Tipo de Cuenta
                     </h3>
                     <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">User Type</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Tipo de Usuario</label>
                         <select name="role" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]">
-                            <option value="MEMBER">Member</option>
-                            <option value="ACCOUNTANT">Accountant</option>
-                            <option value="STAFF">Staff</option>
-                            <option value="GATEKEEPER">Gatekeeper</option>
+                            <option value="MEMBER">Miembro</option>
+                            <option value="ACCOUNTANT">Contador</option>
+                            <option value="STAFF">Personal</option>
+                            <option value="GATEKEEPER">Vigilante</option>
                         </select>
                     </div>
                 </div>
@@ -105,37 +105,37 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                 <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                     <h3 className="text-sm font-bold text-gray-700 uppercase mb-4 flex items-center">
                         <span className="material-icons-outlined text-base mr-2">apartment</span>
-                        Building Information
+                        Información del Edificio
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-semibold text-gray-600 mb-1">Building</label>
+                            <label className="block text-xs font-semibold text-gray-600 mb-1">Edificio</label>
                             <select
                                 name="buildingId"
                                 onChange={handleBuildingChange}
                                 value={selectedBuildingId}
                                 className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]"
                             >
-                                <option value="">Select Building</option>
+                                <option value="">Seleccionar Edificio</option>
                                 {buildings.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-600 mb-1">Unit</label>
+                            <label className="block text-xs font-semibold text-gray-600 mb-1">Unidad</label>
                             <select name="unitId" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]">
-                                <option value="">Select Unit</option>
+                                <option value="">Seleccionar Unidad</option>
                                 {availableUnits.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-600 mb-1">Status</label>
+                            <label className="block text-xs font-semibold text-gray-600 mb-1">Estado</label>
                             <select name="status" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]">
-                                <option value="Owner">Owner</option>
-                                <option value="Tenant">Tenant</option>
+                                <option value="Owner">Propietario</option>
+                                <option value="Tenant">Inquilino</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-semibold text-gray-600 mb-1">Occupied Date</label>
+                            <label className="block text-xs font-semibold text-gray-600 mb-1">Fecha de Ocupación</label>
                             <input type="date" name="occupiedDate" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                         </div>
                     </div>
@@ -144,11 +144,11 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                 {/* --- Personal Info --- */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">First Name*</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Nombre*</label>
                         <input type="text" name="firstName" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Last Name*</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Apellido*</label>
                         <input type="text" name="lastName" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                     </div>
                     <div>
@@ -156,27 +156,27 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                         <input type="email" name="email" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Password*</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Contraseña*</label>
                         <input type="password" name="password" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Date of Birth*</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Fecha de Nacimiento*</label>
                         <input type="date" name="dob" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Mobile*</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Móvil*</label>
                         <input type="tel" name="mobileNumber" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
                     </div>
                     <div className="col-span-1 md:col-span-2">
-                        <label className="block text-xs font-semibold text-gray-600 mb-1">Gender</label>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Género</label>
                         <div className="flex space-x-4">
                             <label className="inline-flex items-center">
                                 <input type="radio" name="gender" value="Male" className="form-radio text-[#1A4373]" defaultChecked />
-                                <span className="ml-2 text-sm">Male</span>
+                                <span className="ml-2 text-sm">Masculino</span>
                             </label>
                             <label className="inline-flex items-center">
                                 <input type="radio" name="gender" value="Female" className="form-radio text-[#1A4373]" />
-                                <span className="ml-2 text-sm">Female</span>
+                                <span className="ml-2 text-sm">Femenino</span>
                             </label>
                         </div>
                     </div>
@@ -187,10 +187,10 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-sm font-bold text-gray-700 uppercase flex items-center">
                             <span className="material-icons-outlined text-base mr-2">family_restroom</span>
-                            Family Members
+                            Miembros de la Familia
                         </h3>
                         <button type="button" onClick={addFamilyMember} className="text-[#1A4373] text-sm hover:underline font-medium">
-                            + Add Member
+                            + Agregar Miembro
                         </button>
                     </div>
 
@@ -200,14 +200,14 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                                 <span className="material-icons-outlined text-sm">close</span>
                             </button>
                             <input
-                                placeholder="Name"
+                                placeholder="Nombre"
                                 type="text"
                                 value={member.name}
                                 onChange={(e) => handleFamilyChange(index, 'name', e.target.value)}
                                 className="w-full rounded border-gray-300 text-xs py-1"
                             />
                             <input
-                                placeholder="Relation"
+                                placeholder="Parentesco"
                                 type="text"
                                 value={member.relation}
                                 onChange={(e) => handleFamilyChange(index, 'relation', e.target.value)}
@@ -218,8 +218,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                                 onChange={(e) => handleFamilyChange(index, 'gender', e.target.value)}
                                 className="w-full rounded border-gray-300 text-xs py-1"
                             >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male">Masculino</option>
+                                <option value="Female">Femenino</option>
                             </select>
                             <input
                                 type="date"
@@ -237,7 +237,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                         disabled={isPending}
                         className="w-full bg-[#1A4373] text-white font-bold py-3 px-4 rounded shadow hover:bg-[#15365d] transition-colors disabled:opacity-50"
                     >
-                        {isPending ? 'CREATING ACCOUNT...' : 'REGISTER ACCOUNT'}
+                        {isPending ? 'CREANDO CUENTA...' : 'REGISTRAR CUENTA'}
                     </button>
                 </div>
             </form>
