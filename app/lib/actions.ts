@@ -14,6 +14,7 @@ export async function getVisitors() {
         const visitors = await prisma.visitor.findMany({
             orderBy: { createdAt: 'desc' },
             take: 5
+
         })
         return { success: true, data: visitors }
     } catch (error) {
