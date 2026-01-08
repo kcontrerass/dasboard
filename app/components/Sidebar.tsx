@@ -4,24 +4,30 @@ import { usePathname } from 'next/navigation';
 interface SidebarProps {
     isOpen: boolean;
     close: () => void;
+    userRole: string;
 }
 
 const menuItems = [
-    { name: 'Dashboard', icon: 'grid_view', href: '/' },
-    { name: 'Residential Unit', icon: 'home', href: '/units' },
-    { name: 'User Management', icon: 'people', href: '/users' },
-    { name: 'Visitors Management', icon: 'emoji_people', href: '/visitors' },
-    { name: 'Notification', icon: 'notifications', href: '/notifications' },
-    { name: 'Services & Facility', icon: 'plumbing', href: '/services' },
-    { name: 'Accounts', icon: 'payments', href: '/accounts' },
-    { name: 'Assets & Inventory', icon: 'inventory_2', href: '/inventory' },
-    { name: 'Reports', icon: 'bar_chart', href: '/reports' },
-    { name: 'Profile', icon: 'person', href: '/profile' },
-    { name: 'Other', icon: 'more_horiz', href: '/other' },
+    { name: 'Dashboard', icon: 'grid_view', href: '/', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
+    { name: 'Residential Unit', icon: 'home', href: '/units', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'User Management', icon: 'people', href: '/users', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Visitors Management', icon: 'emoji_people', href: '/visitors', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'GATEKEEPER'] },
+    { name: 'Notification', icon: 'notifications', href: '/notifications', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Services & Facility', icon: 'plumbing', href: '/services', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'STAFF'] },
+    { name: 'Accounts', icon: 'payments', href: '/accounts', allowedRoles: ['SUPER_ADMIN', 'ACCOUNTANT'] },
+    { name: 'Assets & Inventory', icon: 'inventory_2', href: '/inventory', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+    { name: 'Reports', icon: 'bar_chart', href: '/reports', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT'] },
+    { name: 'Profile', icon: 'person', href: '/profile', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
+    { name: 'Other', icon: 'more_horiz', href: '/other', allowedRoles: ['SUPER_ADMIN'] },
 ];
 
-export default function Sidebar({ isOpen, close }: SidebarProps) {
+export default function Sidebar({ isOpen, close, userRole }: SidebarProps) {
     const pathname = usePathname();
+
+    // Filter items based on role
+    const filteredItems = menuItems.filter(item =>
+        item.allowedRoles.includes(userRole)
+    );
 
     return (
         <>
@@ -47,15 +53,15 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                     </div>
                 </div>
                 <nav className="flex-1 overflow-y-auto py-4 space-y-1">
-                    {menuItems.map((item) => {
+                    {filteredItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
                             <Link
                                 key={item.name}
                                 href={item.href}
                                 className={`flex items-center justify-between px-6 py-3 transition-colors group ${isActive
-                                        ? 'bg-white/10 border-l-4 border-white text-white'
-                                        : 'text-blue-100 hover:bg-white/5 hover:text-white border-l-4 border-transparent'
+                                    ? 'bg-white/10 border-l-4 border-white text-white'
+                                    : 'text-blue-100 hover:bg-white/5 hover:text-white border-l-4 border-transparent'
                                     }`}
                                 onClick={() => {
                                     // Close sidebar on mobile when a link is clicked

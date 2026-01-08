@@ -1,6 +1,8 @@
-import { invoicesData } from '../../lib/mockData';
+interface InvoicesWidgetProps {
+    invoices: any[];
+}
 
-export default function InvoicesWidget() {
+export default function InvoicesWidget({ invoices = [] }: InvoicesWidgetProps) {
     return (
         <div className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5 lg:col-span-1">
             <div className="flex justify-between items-center mb-6">
@@ -10,10 +12,11 @@ export default function InvoicesWidget() {
                 </button>
             </div>
             <div className="space-y-4">
-                {invoicesData.map((invoice, index) => {
+                {invoices.map((invoice, index) => {
                     let iconColor = 'bg-gray-100 text-gray-600';
-                    if (invoice.category === 'water') iconColor = 'bg-teal-100 text-teal-600';
-                    if (invoice.category === 'maintenance') iconColor = 'bg-orange-100 text-orange-600';
+                    if (invoice.category.toLowerCase().includes('water')) iconColor = 'bg-teal-100 text-teal-600';
+                    if (invoice.category.toLowerCase().includes('electricity')) iconColor = 'bg-yellow-100 text-yellow-600';
+                    if (invoice.category.toLowerCase().includes('maintenance')) iconColor = 'bg-orange-100 text-orange-600';
 
                     return (
                         <div key={`${invoice.id}-${index}`} className="flex items-center justify-between">
@@ -28,14 +31,14 @@ export default function InvoicesWidget() {
                                     </div>
                                     <p className="text-[10px] text-gray-500 flex items-center mt-0.5">
                                         <span className="material-icons-outlined text-[10px] mr-1">person</span>{' '}
-                                        {invoice.person}
+                                        {invoice.user?.name || 'Unknown'}
                                     </p>
                                 </div>
                             </div>
                             <span
-                                className={`text-[10px] px-3 py-1 rounded-full font-medium ${invoice.status === 'Fully Paid'
-                                        ? 'bg-green-100 text-green-600 w-16 text-center'
-                                        : 'bg-red-100 text-red-600'
+                                className={`text-[10px] px-3 py-1 rounded-full font-medium ${invoice.status === 'Paid' || invoice.status === 'Fully Paid'
+                                    ? 'bg-green-100 text-green-600 w-16 text-center'
+                                    : 'bg-red-100 text-red-600'
                                     }`}
                             >
                                 {invoice.status}

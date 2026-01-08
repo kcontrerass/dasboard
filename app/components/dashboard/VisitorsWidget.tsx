@@ -1,6 +1,14 @@
-import { activeVisitors, visitorStats } from '../../lib/mockData';
+interface VisitorsWidgetProps {
+    totalVisitors: number;
+}
 
-export default function VisitorsWidget() {
+export default function VisitorsWidget({ totalVisitors }: VisitorsWidgetProps) {
+    // Mock distribution based on real total for now
+    const visitorStats = [
+        { label: 'New Visitors', value: Math.floor(totalVisitors * 0.4), color: 'bg-yellow-400' },
+        { label: 'Old Visitors', value: Math.floor(totalVisitors * 0.6), color: 'bg-green-500' },
+    ];
+
     return (
         <div className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5">
             <div className="flex justify-between items-start mb-4">
@@ -12,7 +20,7 @@ export default function VisitorsWidget() {
             <div className="flex flex-col items-center">
                 <div className="relative w-40 h-40 rounded-full chart-donut-visitors flex items-center justify-center">
                     <div className="w-32 h-32 bg-card-light rounded-full flex flex-col items-center justify-center">
-                        <span className="text-3xl font-bold text-gray-800">{activeVisitors}</span>
+                        <span className="text-3xl font-bold text-gray-800">{totalVisitors}</span>
                         <span className="text-xs text-gray-500 uppercase tracking-wide">Visitors</span>
                     </div>
                 </div>

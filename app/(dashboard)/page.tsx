@@ -3,24 +3,30 @@ import NoticesWidget from '../components/dashboard/NoticesWidget';
 import InvoicesWidget from '../components/dashboard/InvoicesWidget';
 import CalendarWidget from '../components/dashboard/CalendarWidget';
 import MessagesWidget from '../components/dashboard/MessagesWidget';
+import { getDashboardStats, getNotices, getInvoices, getMessages } from '../lib/actions';
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getDashboardStats();
+  const noticesRes = await getNotices();
+  const invoicesRes = await getInvoices();
+  const messagesRes = await getMessages();
+
   return (
     <main className="flex-1 overflow-y-auto p-6 space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <VisitorsWidget />
-        <NoticesWidget />
+        <VisitorsWidget totalVisitors={stats.visitorsCount} />
+        <NoticesWidget notices={noticesRes.data} />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <InvoicesWidget />
+        <InvoicesWidget invoices={invoicesRes.data} />
         <CalendarWidget />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6">
-        <NoticesWidget /> {/* Reusing notices widget as per design or could be separate component if data differs */}
-        <MessagesWidget />
+        <NoticesWidget notices={noticesRes.data} /> {/* Reusing notices widget */}
+        <MessagesWidget messages={messagesRes.data} />
       </div>
       <footer className="text-center text-xs text-gray-400 py-4">
-        Copyright ©2024 Mojoomla. All rights reserved.
+        Copyright ©2026 Mojoomla. All rights reserved.
       </footer>
     </main>
   );

@@ -2,21 +2,25 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { logout } from '../lib/actions';
 
 interface HeaderProps {
     toggleSidebar: () => void;
+    user?: any;
 }
 
-export default function Header({ toggleSidebar }: HeaderProps) {
+export default function Header({ toggleSidebar, user }: HeaderProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const router = useRouter();
 
-    const handleLogout = () => {
-        // Clear the auth cookie
-        document.cookie = "auth_token=; path=/; max-age=0";
+    const handleLogout = async () => {
+        await logout();
         router.push('/login');
-        router.refresh();
     };
+
+    const userName = user?.name || 'Guest User';
+    const userEmail = user?.email || '';
+    const userImage = user?.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHBORfy9k2aZMB96PxYlf67MYlxni-VWmSTcbyMm0kdGSK5BXONq1p7YHUau3RN5Vey6enSDiKbbLsYXB_QAze4ulTyzjtiGo8ZJRhz-C3A2jnoh0Fr1k9fq5P1CjSL1xUS4I3jBvR7g1F6AGu8DiyNRB2VLsMTu4gxkq10bLrY7Egp5HqE97dRFgc2rjTyq5Q4I1ksY5_NZGdrtUz2P0QnbyXwnthIBJm9Sss3aKAnTHSjtQO9L5KA7bvXagoG-adyYY2QILypa49';
 
     return (
         <header className="bg-card-light shadow-sm z-10 flex-shrink-0">
@@ -29,7 +33,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                         <span className="material-icons-outlined text-2xl">menu</span>
                     </button>
                     <h1 className="text-xl font-medium text-gray-800">
-                        Welcome, David Smith
+                        Welcome, {userName}
                     </h1>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -44,7 +48,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                             <img
                                 alt="Profile"
                                 className="h-9 w-9 rounded-full object-cover border border-gray-200 hover:border-blue-500 cursor-pointer"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHBORfy9k2aZMB96PxYlf67MYlxni-VWmSTcbyMm0kdGSK5BXONq1p7YHUau3RN5Vey6enSDiKbbLsYXB_QAze4ulTyzjtiGo8ZJRhz-C3A2jnoh0Fr1k9fq5P1CjSL1xUS4I3jBvR7g1F6AGu8DiyNRB2VLsMTu4gxkq10bLrY7Egp5HqE97dRFgc2rjTyq5Q4I1ksY5_NZGdrtUz2P0QnbyXwnthIBJm9Sss3aKAnTHSjtQO9L5KA7bvXagoG-adyYY2QILypa49"
+                                src={userImage}
                             />
                         </button>
 
@@ -56,8 +60,8 @@ export default function Header({ toggleSidebar }: HeaderProps) {
                                 ></div>
                                 <div className="absolute right-0 top-12 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border border-gray-100">
                                     <div className="px-4 py-2 border-b border-gray-100">
-                                        <p className="text-sm font-medium text-gray-900">David Smith</p>
-                                        <p className="text-xs text-gray-500 truncate">david.smith@example.com</p>
+                                        <p className="text-sm font-medium text-gray-900">{userName}</p>
+                                        <p className="text-xs text-gray-500 truncate">{userEmail}</p>
                                     </div>
                                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
                                         <span className="material-icons-outlined text-sm mr-2">person</span>

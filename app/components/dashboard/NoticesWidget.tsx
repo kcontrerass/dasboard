@@ -1,23 +1,24 @@
 'use client';
 import { useState } from 'react';
-import { noticesData } from '../../lib/mockData';
 
-export default function NoticesWidget() {
+interface NoticesWidgetProps {
+    notices: any[];
+}
+
+export default function NoticesWidget({ notices = [] }: NoticesWidgetProps) {
     const [filter, setFilter] = useState<'All' | 'Announcement' | 'Maintenance'>('All');
 
-    // Simple filter logic for demo purposes
-    // In a real app, you might match against specific types defined in Notice interface
-    const filteredNotices = noticesData.filter((notice) => {
+    // Simple filter logic
+    const filteredNotices = notices.filter((notice) => {
         if (filter === 'All') return true;
-        if (filter === 'Announcement' && notice.type === 'Cleaning') return true; // Just mapping for demo
+        if (filter === 'Announcement' && notice.type !== 'Maintenance') return true;
         if (filter === 'Maintenance' && notice.type === 'Maintenance') return true;
         return true;
     });
 
-    // For the donut chart visualization (static for now based on mock)
-    const total = noticesData.length;
-    const announcementCount = noticesData.filter(n => n.type === 'Cleaning' || n.type === 'General' || n.type === 'Parking').length; // Treating these as general announcements
-    const maintenanceCount = noticesData.filter(n => n.type === 'Maintenance').length;
+    const total = notices.length;
+    const announcementCount = notices.filter(n => n.type !== 'Maintenance').length;
+    const maintenanceCount = notices.filter(n => n.type === 'Maintenance').length;
 
     return (
         <div className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5">

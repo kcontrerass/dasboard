@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  RESIDENT
+  ACCOUNTANT
+  STAFF
+  GATEKEEPER
+  MEMBER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(MEMBER)
+  image     String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  messages  Message[]
+  invoices  Invoice[]
+  
+  // Relations
+  memberProfile MemberProfile?
+  familyMembers FamilyMember[]
+}
+
+model MemberProfile {
+  id            Int       @id @default(autoincrement())
+  userId        Int       @unique
+  user          User      @relation(fields: [userId], references: [id])
+  
+  firstName     String
+  middleName    String?
+  lastName      String
+  dob           DateTime
+  gender        String
+  mobileNumber  String
+  address       String?
+  imageUrl      String?   @db.Text
+  
+  unitId        Int?
+  unit          Unit?     @relation(fields: [unitId], references: [id])
+  
+  status        String    @default("Tenant") // Owner, Tenant
+  occupiedDate  DateTime?
+}
+
+model FamilyMember {
+  id        Int      @id @default(autoincrement())
+  name      String
+  gender    String
+  dob       DateTime
+  relation  String
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Building {
+  id      Int    @id @default(autoincrement())
+  name    String
+  units   Unit[]
+}
+
+model Unit {
+  id          Int      @id @default(autoincrement())
+  name        String   // e.g. "101", "A-202"
+  category    String   // e.g. "Residential", "Commercial"
+  buildingId  Int
+  building    Building @relation(fields: [buildingId], references: [id])
+  
+  members     MemberProfile[]
+}
+
+model Notice {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  type        String   // Cleaning, Maintenance, General, Parking
+  status      String   @default("Approved")
+  startDate   DateTime
+  endDate     DateTime
+  borderColor String?
+  createdAt   DateTime @default(now())
+}
+
+model Visitor {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String   // Guest, Delivery, etc.
+  status      String   // CheckIn, CheckOut
+  checkInTime DateTime @default(now())
+  checkOutTime DateTime?
+  createdAt   DateTime @default(now())
+}
+
+model Invoice {
+  id        String   @id // Custom ID like INV-001
+  amount    Float
+  status    String   // Unpaid, Fully Paid
+  category  String   // water, electricity, maintenance
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  content     String
+  senderId    Int
+  sender      User     @relation(fields: [senderId], references: [id])
+  avatarColor String?
+  createdAt   DateTime @default(now())
+}

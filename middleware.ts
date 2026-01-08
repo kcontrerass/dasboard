@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
     // any route likely not public needs protection.
     // We can explicitly check for /login to avoid loops if we used a matcher.
 
-    if (pathname !== '/login' && !token) {
+    if (pathname !== '/login' && pathname !== '/register' && !token) {
         return NextResponse.redirect(new URL('/login', request.url))
     }
 
