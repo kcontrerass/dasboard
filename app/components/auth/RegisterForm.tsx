@@ -18,7 +18,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
 
     useEffect(() => {
         getBuildingOptions().then(res => {
-            if (res.success) {
+            if (res.success && res.data) {
                 setBuildings(res.data);
             }
         });
