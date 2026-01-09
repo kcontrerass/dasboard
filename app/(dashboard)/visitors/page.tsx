@@ -1,11 +1,8 @@
-export default function Visitors() {
-    return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">Visitors Management</h1>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col items-center justify-center text-gray-500 min-h-[400px]">
-                <span className="material-icons-outlined text-6xl mb-4 text-gray-300">emoji_people</span>
-                <p className="text-lg">Visitor tracking and logs will appear here.</p>
-            </div>
-        </div>
-    );
+import { getVisitors } from '../../lib/actions';
+import VisitorsContent from './content';
+
+export default async function VisitorsPage() {
+    const { data: visitors } = await getVisitors();
+
+    return <VisitorsContent visitors={visitors} />;
 }

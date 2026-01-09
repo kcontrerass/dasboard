@@ -12,6 +12,7 @@ const menuItems = [
     { name: 'Unidad Residencial', icon: 'home', href: '/units', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
     { name: 'Gestión de Usuarios', icon: 'people', href: '/users', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
     { name: 'Visitantes', icon: 'emoji_people', href: '/visitors', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'GATEKEEPER'] },
+    { name: 'Eventos', icon: 'event', href: '/events', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
     { name: 'Mensajes', icon: 'chat', href: '/messages', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'RESIDENT', 'ACCOUNTANT', 'STAFF', 'GATEKEEPER', 'MEMBER'] },
     { name: 'Notificaciones', icon: 'notifications', href: '/notifications', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
     { name: 'Servicios e Instalaciones', icon: 'plumbing', href: '/services', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'STAFF'] },

@@ -83,13 +83,13 @@ export default function LoginPage() {
                                 key={item.name}
                                 onClick={() => handleMenuClick(item)}
                                 className={`w-full flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-200 text-left group ${(currentView === item.view && !item.roleHint) || (item.roleHint && selectedRole === item.roleHint && currentView === 'login')
-                                        ? 'bg-white shadow-sm ring-1 ring-gray-200'
-                                        : 'hover:bg-gray-100/80 text-gray-500 hover:text-gray-900'
+                                    ? 'bg-white shadow-sm ring-1 ring-gray-200'
+                                    : 'hover:bg-gray-100/80 text-gray-500 hover:text-gray-900'
                                     }`}
                             >
                                 <span className={`material-icons-outlined text-2xl transition-colors ${(currentView === item.view && !item.roleHint) || (item.roleHint && selectedRole === item.roleHint && currentView === 'login')
-                                        ? 'text-gray-900'
-                                        : 'text-gray-400 group-hover:text-gray-900'
+                                    ? 'text-gray-900'
+                                    : 'text-gray-400 group-hover:text-gray-900'
                                     }`}>{item.icon}</span>
                                 <span className="font-semibold text-sm">{item.name}</span>
                             </button>
@@ -104,7 +104,7 @@ export default function LoginPage() {
 
             {/* Main Content Area */}
             <main className="flex-1 flex items-center justify-center p-6 md:p-12 bg-white">
-                <div className="w-full max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="w-full max-w-[550px] animate-in fade-in slide-in-from-bottom-4 duration-500">
 
                     {currentView === 'login' ? (
                         /* LOGIN VIEW */

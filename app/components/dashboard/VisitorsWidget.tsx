@@ -3,15 +3,27 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
 
-interface VisitorsWidgetProps {
-    totalVisitors: number;
+interface VisitorStat {
+    name: string;
+    value: number;
 }
 
-export default function VisitorsWidget({ totalVisitors }: VisitorsWidgetProps) {
-    const data = [
-        { name: 'Nuevos', value: Math.floor(totalVisitors * 0.4), color: '#FBBF24' }, // yellow-400
-        { name: 'Habituales', value: Math.floor(totalVisitors * 0.6), color: '#22C55E' }, // green-500
+interface VisitorsWidgetProps {
+    totalVisitors: number;
+    visitorStats?: VisitorStat[];
+}
+
+const COLORS = ['#FBBF24', '#22C55E', '#3B82F6', '#F472B6', '#A78BFA'];
+
+export default function VisitorsWidget({ totalVisitors, visitorStats = [] }: VisitorsWidgetProps) {
+    const data = visitorStats.length > 0 ? visitorStats.map((stat, index) => ({
+        ...stat,
+        color: COLORS[index % COLORS.length]
+    })) : [
+        { name: 'Sin datos', value: 1, color: '#E5E7EB' }
     ];
+
+    const showChart = totalVisitors > 0 && visitorStats.length > 0;
 
     return (
         <motion.div
@@ -31,37 +43,38 @@ export default function VisitorsWidget({ totalVisitors }: VisitorsWidgetProps) {
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Pie
-                                data={data}
+                                data={showChart ? data : [{ name: 'No data', value: 1, color: '#f3f4f6' }]}
                                 cx="50%"
                                 cy="50%"
                                 innerRadius={60}
                                 outerRadius={80}
-                                paddingAngle={5}
+                                paddingAngle={showChart ? 5 : 0}
                                 dataKey="value"
                             >
-                                {data.map((entry, index) => (
+                                {showChart ? data.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} strokeWidth={0} />
-                                ))}
+                                )) : (
+                                    <Cell fill="#f3f4f6" strokeWidth={0} />
+                                )}
                             </Pie>
-                            <Tooltip
+                            {showChart && <Tooltip
                                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 itemStyle={{ color: '#374151', fontSize: '12px' }}
-                            />
+                            />}
                         </PieChart>
                     </ResponsiveContainer>
-                    {/* Center Text */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                         <span className="text-3xl font-bold text-gray-800">{totalVisitors}</span>
                         <span className="text-xs text-gray-500 uppercase tracking-wide">Total</span>
                     </div>
                 </div>
 
-                <div className="flex justify-around w-full mt-4">
-                    {data.map((stat) => (
-                        <div key={stat.name} className="flex flex-col items-center">
+                <div className="flex justify-around w-full mt-4 flex-wrap gap-2">
+                    {showChart && data.map((stat) => (
+                        <div key={stat.name} className="flex flex-col items-center min-w-[60px]">
                             <div className="flex items-center gap-2 mb-1">
                                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: stat.color }}></div>
-                                <span className="text-xs text-gray-500">{stat.name}</span>
+                                <span className="text-xs text-gray-500 capitalize">{stat.name}</span>
                             </div>
                             <span className="text-xl font-bold text-gray-800">{stat.value}</span>
                         </div>

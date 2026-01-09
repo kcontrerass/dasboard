@@ -11,25 +11,13 @@ interface NoticesWidgetProps {
 export default function NoticesWidget({ notices = [] }: NoticesWidgetProps) {
     const [filter, setFilter] = useState<'All' | 'Announcement' | 'Maintenance'>('All');
 
-    // Simple filter logic (not strictly needed for the chart which shows totals, but good to keep)
-    // Note: The original chart showed totals regardless of filter? 
-    // Actually the original chart showed hardcoded logic based on types. 
-    // Let's keep the chart showing distribution of the *current set* or just totals?
-    // The original code calculated counts from the full `notices` array.
-
     const announcementCount = notices.filter(n => n.type !== 'Maintenance').length;
     const maintenanceCount = notices.filter(n => n.type === 'Maintenance').length;
 
     const data = [
-        { name: 'Anuncios', value: announcementCount, color: '#6B7280' }, // gray-500
-        { name: 'Mantenimiento', value: maintenanceCount, color: '#F97316' }, // orange-500
+        { name: 'Anuncios', value: announcementCount, color: '#6B7280' },
+        { name: 'Mantenimiento', value: maintenanceCount, color: '#F97316' },
     ];
-
-    // Filter just for list or future use if we listed items, but here we just show chart.
-    // The select box updates state but the original code didn't use `filteredNotices` for the chart stats.
-    // It only used it to variable `filteredNotices` which was unused in JSX. 
-    // We'll keep the UI element as requested but maybe it should affect something? 
-    // For now, I'll duplicate existing behavior: Filter UI exists, but chart shows global stats.
 
     return (
         <motion.div

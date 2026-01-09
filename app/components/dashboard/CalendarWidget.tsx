@@ -1,178 +1,151 @@
 'use client';
 
-import { useState } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, isToday } from 'date-fns';
+import { useState, useEffect } from 'react';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getCalendarData } from '../../lib/actions';
+import BookingModal from './BookingModal';
 
 export default function CalendarWidget() {
-    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [currentDate, setCurrentDate] = useState(new Date());
     const [direction, setDirection] = useState(0);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handlePrevMonth = () => {
-        setDirection(-1);
-        setCurrentMonth(subMonths(currentMonth, 1));
+    // Data state
+    const [calendarData, setCalendarData] = useState<{ reservations: any[], events: any[], notices: any[] }>({ reservations: [], events: [], notices: [] });
+
+    // Fetch data when month changes
+    useEffect(() => {
+        const month = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+
+        getCalendarData(month, year).then(res => {
+            if (res.success) {
+                setCalendarData(res.data);
+            }
+        });
+    }, [currentDate]);
+
+    const changeMonth = (increment: number) => {
+        setDirection(increment);
+        setCurrentDate(prev => increment > 0 ? addMonths(prev, 1) : subMonths(prev, 1));
     };
 
-    const handleNextMonth = () => {
-        setDirection(1);
-        setCurrentMonth(addMonths(currentMonth, 1));
+    const handleDayClick = (day: Date) => {
+        setSelectedDate(day);
+        setIsModalOpen(true);
     };
 
-    const handleToday = () => {
-        setDirection(currentMonth > new Date() ? -1 : 1);
-        setCurrentMonth(new Date());
+    const monthStart = startOfMonth(currentDate);
+    const monthEnd = endOfMonth(currentDate);
+    const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
+
+    // Fill start empty days
+    const startDay = monthStart.getDay(); // 0 is Sunday
+    const blanks = Array(startDay === 0 ? 6 : startDay - 1).fill(null); // Adjust for Monday start if needed. Default 0=Sun. 
+
+    // Helper to find items for a day
+    const getItemsForDay = (day: Date) => {
+        const dayReservations = calendarData.reservations.filter(r => isSameDay(new Date(r.date), day));
+        const dayEvents = calendarData.events.filter(e => isSameDay(new Date(e.date), day));
+        return { dayReservations, dayEvents };
     };
 
-    // Calendar logic
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
-
-    const days = eachDayOfInterval({
-        start: startDate,
-        end: endDate,
-    });
-
-    const variants = {
-        enter: (direction: number) => {
-            return {
-                x: direction > 0 ? 50 : -50,
-                opacity: 0
-            };
-        },
-        center: {
-            x: 0,
-            opacity: 1
-        },
-        exit: (direction: number) => {
-            return {
-                x: direction < 0 ? 50 : -50,
-                opacity: 0
-            };
-        }
+    const dayVariants = {
+        hidden: { opacity: 0, y: 10 },
+        visible: (i: number) => ({
+            opacity: 1,
+            y: 0,
+            transition: { delay: i * 0.01 }
+        })
     };
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5 lg:col-span-2"
-        >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <h2 className="text-lg font-medium text-gray-900">Calendario</h2>
-                <div className="flex items-center gap-4 text-xs">
-                    <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-red-400"></span>
-                        <span className="text-gray-600">Avisos</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-                        <span className="text-gray-600">Eventos</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                        <span className="text-gray-600">Reservas</span>
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                    <button onClick={handlePrevMonth} className="p-1 rounded hover:bg-gray-100 text-gray-600 transition-colors">
-                        <span className="material-icons-outlined text-sm">chevron_left</span>
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full flex flex-col">
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="font-bold text-gray-800 text-lg capitalize">
+                    {format(currentDate, 'MMMM yyyy', { locale: es })}
+                </h2>
+                <div className="flex gap-1">
+                    <button onClick={() => changeMonth(-1)} className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
+                        <span className="material-icons-outlined text-xl">chevron_left</span>
                     </button>
-                    <button
-                        onClick={handleToday}
-                        className="px-3 py-1 rounded border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
+                    <button onClick={() => changeMonth(1)} className="p-1 hover:bg-gray-100 rounded-full transition-colors text-gray-500">
+                        <span className="material-icons-outlined text-xl">chevron_right</span>
+                    </button>
+                    <button onClick={() => setCurrentDate(new Date())} className="ml-2 px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full hover:bg-primary/20 transition-colors">
                         Hoy
                     </button>
-                    <button onClick={handleNextMonth} className="p-1 rounded hover:bg-gray-100 text-gray-600 transition-colors">
-                        <span className="material-icons-outlined text-sm">chevron_right</span>
-                    </button>
-                </div>
-
-                <h3 className="font-semibold text-gray-700 capitalize">
-                    {format(currentMonth, 'MMMM yyyy', { locale: es })}
-                </h3>
-
-                <div className="flex bg-gray-100 rounded-lg p-0.5">
-                    <button className="px-3 py-1 bg-white text-xs font-medium rounded shadow-sm text-gray-800">Mes</button>
-                    <button className="px-3 py-1 text-gray-500 text-xs font-medium rounded hover:bg-white hover:text-gray-800 transition-all">Sem</button>
-                    <button className="px-3 py-1 text-gray-500 text-xs font-medium rounded hover:bg-white hover:text-gray-800 transition-all">Día</button>
-                    <button className="px-3 py-1 text-gray-500 text-xs font-medium rounded hover:bg-white hover:text-gray-800 transition-all">Lista</button>
                 </div>
             </div>
 
-            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
-                <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200 text-center text-xs font-semibold text-gray-500 py-2">
-                    <div>DOM</div>
-                    <div>LUN</div>
-                    <div>MAR</div>
-                    <div>MIE</div>
-                    <div>JUE</div>
-                    <div>VIE</div>
-                    <div>SAB</div>
-                </div>
-
-                <div className="relative h-64 overflow-hidden">
-                    <AnimatePresence initial={false} custom={direction} mode='popLayout'>
-                        <motion.div
-                            key={currentMonth.toISOString()}
-                            custom={direction}
-                            variants={variants}
-                            initial="enter"
-                            animate="center"
-                            exit="exit"
-                            transition={{
-                                x: { type: "spring", stiffness: 300, damping: 30 },
-                                opacity: { duration: 0.2 }
-                            }}
-                            className="grid grid-cols-7 h-full absolute inset-0"
-                        >
-                            {days.map((day, index) => {
-                                const isCurrentMonth = isSameMonth(day, monthStart);
-                                const isDayToday = isToday(day);
-
-                                return (
-                                    <div
-                                        key={day.toISOString()}
-                                        className={`
-                                            border-b border-gray-100 p-1 min-h-[50px]
-                                            ${index % 7 !== 6 ? 'border-r' : ''}
-                                            ${!isCurrentMonth ? 'bg-gray-50/30' : ''}
-                                            hover:bg-gray-50 transition-colors cursor-pointer
-                                        `}
-                                    >
-                                        <div className="flex justify-end">
-                                            <span
-                                                className={`
-                                                    text-[10px] w-6 h-6 flex items-center justify-center rounded-full
-                                                    ${isDayToday ? 'bg-blue-600 text-white font-bold' : ''}
-                                                    ${!isDayToday && isCurrentMonth ? 'text-gray-700' : ''}
-                                                    ${!isDayToday && !isCurrentMonth ? 'text-gray-400' : ''}
-                                                `}
-                                            >
-                                                {format(day, 'd')}
-                                            </span>
-                                        </div>
-
-                                        {/* Example event dot based on random logic for demo */}
-                                        {isCurrentMonth && parseInt(format(day, 'd')) % 5 === 0 && (
-                                            <div className="mt-1 flex justify-end gap-1 px-1">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
+            <div className="grid grid-cols-7 mb-2">
+                {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (
+                    <div key={day} className="text-center text-xs text-gray-400 font-medium py-1">
+                        {day}
+                    </div>
+                ))}
             </div>
-        </motion.div>
+
+            <AnimatePresence mode='wait' custom={direction}>
+                <motion.div
+                    key={currentDate.toISOString()}
+                    initial={{ x: direction * 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: direction * -50, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="grid grid-cols-7 gap-1 flex-1 content-start"
+                >
+                    {blanks.map((_, i) => <div key={`blank-${i}`} className="h-10 sm:h-auto aspect-square"></div>)}
+
+                    {days.map((day, i) => {
+                        const { dayReservations, dayEvents } = getItemsForDay(day);
+                        const hasItems = dayReservations.length > 0 || dayEvents.length > 0;
+
+                        return (
+                            <motion.button
+                                custom={i}
+                                variants={dayVariants}
+                                initial="hidden"
+                                animate="visible"
+                                key={day.toISOString()}
+                                onClick={() => handleDayClick(day)}
+                                className={`
+                                    relative h-10 sm:h-auto aspect-square rounded-xl flex items-center justify-center text-sm transition-all
+                                    ${isSameDay(day, new Date()) ? 'bg-primary text-white shadow-md font-bold' : 'hover:bg-gray-50 text-gray-700'}
+                                    ${hasItems && !isSameDay(day, new Date()) ? 'bg-gray-50' : ''}
+                                `}
+                            >
+                                {format(day, 'd')}
+
+                                {/* Indicators */}
+                                <div className="absolute bottom-1 right-1/2 translate-x-1/2 flex gap-0.5">
+                                    {dayReservations.length > 0 && (
+                                        <div className={`w-1 h-1 rounded-full ${isSameDay(day, new Date()) ? 'bg-white' : 'bg-blue-400'}`}></div>
+                                    )}
+                                    {dayEvents.length > 0 && (
+                                        <div className={`w-1 h-1 rounded-full ${isSameDay(day, new Date()) ? 'bg-white' : 'bg-orange-400'}`}></div>
+                                    )}
+                                </div>
+                            </motion.button>
+                        );
+                    })}
+                </motion.div>
+            </AnimatePresence>
+
+            {/* Legend */}
+            <div className="mt-4 flex gap-4 justify-center text-[10px] text-gray-400">
+                <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>Reserva</div>
+                <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>Evento</div>
+            </div>
+
+            <BookingModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                selectedDate={selectedDate}
+            />
+        </div>
     );
 }

@@ -32,8 +32,10 @@ model User {
   invoices         Invoice[]
   
   // Relations
-  memberProfile MemberProfile?
-  familyMembers FamilyMember[]
+  memberProfile  MemberProfile?
+  familyMembers  FamilyMember[]
+  reservations   Reservation[]
+  events         Event[]
 }
 
 model MemberProfile {
@@ -124,5 +126,44 @@ model Message {
   receiverId  Int
   receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
   avatarColor String?
+  createdAt   DateTime @default(now())
+}
+
+model Amenity {
+  id           Int           @id @default(autoincrement())
+  name         String        // e.g. "Piscina", "BBQ"
+  description  String?
+  reservations Reservation[]
+}
+
+model Reservation {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  status    String   @default("Confirmed") // Confirmed, Cancelled
+  
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  
+  amenityId Int
+  amenity   Amenity  @relation(fields: [amenityId], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  date        DateTime
+  startTime   DateTime
+  endTime     DateTime?
+  location    String?
+  type        String   @default("General")
+  
+  userId      Int?     // Made optional to avoid migration issues with existing data, can be required later
+  user        User?    @relation(fields: [userId], references: [id])
+  
   createdAt   DateTime @default(now())
 }
