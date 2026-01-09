@@ -1,17 +1,46 @@
+'use client';
+
+import { motion } from 'framer-motion';
+
 interface InvoicesWidgetProps {
     invoices: any[];
 }
 
 export default function InvoicesWidget({ invoices = [] }: InvoicesWidgetProps) {
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const item = {
+        hidden: { opacity: 0, y: 10 },
+        show: { opacity: 1, y: 0 }
+    };
+
     return (
-        <div className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5 lg:col-span-1">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-card-light rounded-xl shadow-sm border border-gray-100 p-5 lg:col-span-1"
+        >
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-lg font-medium text-gray-900">Facturas</h2>
                 <button className="text-gray-400 hover:text-blue-500 transition-colors">
                     <span className="material-icons-outlined text-lg">open_in_new</span>
                 </button>
             </div>
-            <div className="space-y-4">
+            <motion.div
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="space-y-4"
+            >
                 {invoices.map((invoice, index) => {
                     let iconColor = 'bg-gray-100 text-gray-600';
                     if (invoice.category.toLowerCase().includes('water')) iconColor = 'bg-teal-100 text-teal-600';
@@ -19,7 +48,11 @@ export default function InvoicesWidget({ invoices = [] }: InvoicesWidgetProps) {
                     if (invoice.category.toLowerCase().includes('maintenance')) iconColor = 'bg-orange-100 text-orange-600';
 
                     return (
-                        <div key={`${invoice.id}-${index}`} className="flex items-center justify-between">
+                        <motion.div
+                            key={`${invoice.id}-${index}`}
+                            variants={item}
+                            className="flex items-center justify-between"
+                        >
                             <div className="flex items-center">
                                 <div className={`${iconColor} p-2 rounded-lg mr-3`}>
                                     <span className="material-icons-outlined text-xl">payments</span>
@@ -43,10 +76,10 @@ export default function InvoicesWidget({ invoices = [] }: InvoicesWidgetProps) {
                             >
                                 {invoice.status}
                             </span>
-                        </div>
+                        </motion.div>
                     );
                 })}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }

@@ -92,7 +92,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                     </h3>
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Tipo de Usuario</label>
-                        <select name="role" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]">
+                        <select name="role" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900">
                             <option value="MEMBER">Miembro</option>
                             <option value="ACCOUNTANT">Contador</option>
                             <option value="STAFF">Personal</option>
@@ -114,7 +114,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                                 name="buildingId"
                                 onChange={handleBuildingChange}
                                 value={selectedBuildingId}
-                                className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]"
+                                className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900"
                             >
                                 <option value="">Seleccionar Edificio</option>
                                 {buildings.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
@@ -122,21 +122,21 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-600 mb-1">Unidad</label>
-                            <select name="unitId" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]">
+                            <select name="unitId" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900">
                                 <option value="">Seleccionar Unidad</option>
                                 {availableUnits.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                             </select>
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-600 mb-1">Estado</label>
-                            <select name="status" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]">
+                            <select name="status" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900">
                                 <option value="Owner">Propietario</option>
                                 <option value="Tenant">Inquilino</option>
                             </select>
                         </div>
                         <div>
                             <label className="block text-xs font-semibold text-gray-600 mb-1">Fecha de Ocupación</label>
-                            <input type="date" name="occupiedDate" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                            <input type="date" name="occupiedDate" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                         </div>
                     </div>
                 </div>
@@ -145,37 +145,37 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Nombre*</label>
-                        <input type="text" name="firstName" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                        <input type="text" name="firstName" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Apellido*</label>
-                        <input type="text" name="lastName" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                        <input type="text" name="lastName" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Email*</label>
-                        <input type="email" name="email" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                        <input type="email" name="email" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Contraseña*</label>
-                        <input type="password" name="password" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                        <input type="password" name="password" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Fecha de Nacimiento*</label>
-                        <input type="date" name="dob" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                        <input type="date" name="dob" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                     </div>
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Móvil*</label>
-                        <input type="tel" name="mobileNumber" className="w-full rounded border-gray-300 text-sm focus:border-[#1A4373] focus:ring-[#1A4373]" required />
+                        <input type="tel" name="mobileNumber" className="w-full rounded border-gray-300 text-sm focus:border-gray-900 focus:ring-gray-900" required />
                     </div>
                     <div className="col-span-1 md:col-span-2">
                         <label className="block text-xs font-semibold text-gray-600 mb-1">Género</label>
                         <div className="flex space-x-4">
                             <label className="inline-flex items-center">
-                                <input type="radio" name="gender" value="Male" className="form-radio text-[#1A4373]" defaultChecked />
+                                <input type="radio" name="gender" value="Male" className="form-radio text-gray-900" defaultChecked />
                                 <span className="ml-2 text-sm">Masculino</span>
                             </label>
                             <label className="inline-flex items-center">
-                                <input type="radio" name="gender" value="Female" className="form-radio text-[#1A4373]" />
+                                <input type="radio" name="gender" value="Female" className="form-radio text-gray-900" />
                                 <span className="ml-2 text-sm">Femenino</span>
                             </label>
                         </div>
@@ -189,7 +189,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                             <span className="material-icons-outlined text-base mr-2">family_restroom</span>
                             Miembros de la Familia
                         </h3>
-                        <button type="button" onClick={addFamilyMember} className="text-[#1A4373] text-sm hover:underline font-medium">
+                        <button type="button" onClick={addFamilyMember} className="text-gray-900 text-sm hover:underline font-medium">
                             + Agregar Miembro
                         </button>
                     </div>
@@ -235,7 +235,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="w-full bg-[#1A4373] text-white font-bold py-3 px-4 rounded shadow hover:bg-[#15365d] transition-colors disabled:opacity-50"
+                        className="w-full bg-gray-900 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:bg-black transition-all disabled:opacity-50"
                     >
                         {isPending ? 'CREANDO CUENTA...' : 'REGISTRAR CUENTA'}
                     </button>

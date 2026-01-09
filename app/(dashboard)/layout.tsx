@@ -14,7 +14,7 @@ export default async function DashboardLayout({
     const user = await getCurrentUser();
 
     return (
-        <div className="bg-background-light text-gray-800 font-sans antialiased h-screen flex overflow-hidden selection:bg-blue-500 selection:text-white">
+        <div className="bg-background-light text-gray-600 font-sans antialiased h-screen flex overflow-hidden selection:bg-primary/20 selection:text-primary">
             <LayoutWrapper userRole={userRole} user={user}>{children}</LayoutWrapper>
         </div>
     );

@@ -4,20 +4,14 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-primary: #0D3C61;
-  --color-background-light: #F3F4F6;
-  --color-card-light: #FFFFFF;
+  --color-primary: #1e293b;
+  /* Slate 800 - Sophisticated dark/black */
+  --color-primary-light: #334155;
+  /* Slate 700 */
+  --color-background-light: #f9fafb;
+  /* Gray 50 - Softer, cleaner background */
+  --color-card-light: #ffffff;
   --font-display: "Inter", sans-serif;
   --font-sans: "Inter", sans-serif;
   --radius: 0.5rem;
-}
-
-.chart-donut-visitors {
-  background: conic-gradient(#FBBF24 0% 75%,
-      #22C55E 75% 100%);
-}
-
-.chart-donut-notices {
-  background: conic-gradient(#6B7280 0% 100%,
-      #F97316 100% 100%);
 }
